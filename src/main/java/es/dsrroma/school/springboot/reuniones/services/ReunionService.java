@@ -1,13 +1,13 @@
 package es.dsrroma.school.springboot.reuniones.services;
 
 import es.dsrroma.school.springboot.reuniones.data.ReunionRepository;
-import es.dsrroma.school.springboot.reuniones.models.Persona;
 import es.dsrroma.school.springboot.reuniones.models.Reunion;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReunionService {
@@ -22,7 +22,7 @@ public class ReunionService {
         return reunionRepository.findAll();
     }
 
-    public Reunion getById(long id) {
-        return reunionRepository.findById(id).get();
+    public Optional<Reunion> getById(long id) {
+        return reunionRepository.findById(id);
     }
 }

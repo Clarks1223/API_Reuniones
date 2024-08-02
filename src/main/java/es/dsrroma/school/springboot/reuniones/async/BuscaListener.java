@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Component
 public class BuscaListener {
     private static final Logger LOG = LoggerFactory.getLogger(BuscaListener.class);
@@ -31,12 +34,23 @@ public class BuscaListener {
             // y lo convierta utilizando la plantilla la clase infoBusca
             InfoBusca info = mapper.readValue(mensaje, InfoBusca.class);
             //utiliza el id asistente para obtener la persona
-            Persona persona = personaService.getById(info.getIdAsistente());
+            Optional<Persona> persona = personaService.getById(info.getIdAsistente());
+            //si persona no existe saldra un warning
+            if (persona.isEmpty()) {
+                LOG.warn("Mensaje recibido pero la persona {} no existe", info.getIdAsistente());
+            }
             //utilizo el id reunion para obtener la reunion
-            Reunion reunion = reunionService.getById(info.getIdReunion());
-            //
-            LOG.info("{}{} Tiene una reunion a las {}: ", persona.getNombre(),
-                    persona.getApellido(), reunion.getFecha());
+            Optional<Reunion> reunion = reunionService.getById(info.getIdReunion());
+            //si la reunion no existe se muestra un warning
+            if (reunion.isEmpty()) {
+                LOG.warn("Mensaje recibido pero la reunion {} no existe", info.getIdReunion());
+            }
+            //En caso de que la consulta sea exitosa
+            if (persona.isPresent() && reunion.isPresent()) {
+                LOG.info("{}{} Tiene una reunion a las {}: ", persona.get().getNombre(),
+                        persona.get().getApellido(), reunion.get().getFecha());
+            }
+
         } catch (JsonProcessingException e) {
             LOG.warn("Mensaje incorrecto", e);
         }
