@@ -21,4 +21,8 @@ public class ReunionService {
     public List<Reunion> getAllReuniones() {
         return reunionRepository.findAll();
     }
+
+    public Reunion getById(long id) {
+        return reunionRepository.findById(id).get();
+    }
 }

@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .and().logout().permitAll();
         return http.build();
     }
+
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails usuario1 = User.builder().username("Clarks")
@@ -36,6 +37,7 @@ public class SecurityConfig {
         //esto se debe hacer solo en aplicaciones de prueba
         return new InMemoryUserDetailsManager(usuario1, usuario2);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

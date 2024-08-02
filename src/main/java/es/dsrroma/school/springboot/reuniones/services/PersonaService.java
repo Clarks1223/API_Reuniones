@@ -21,4 +21,8 @@ public class PersonaService {
         //recupero todos los registros
         return personaRepository.findAll();
     }
+
+    public Persona getById(long id) {
+        return personaRepository.findById(id).get();
+    }
 }
