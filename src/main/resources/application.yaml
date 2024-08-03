@@ -17,6 +17,18 @@ Spring:
   jpa:
     hibernate:
       ddl-auto: "none"
+  data:
+    rest:
+      base-path: "api/rest"
+management:
+  endpoints:
+    web:
+      explosure:
+        include: "*"
+  endpoint:
+    healt:
+      roles: "USER"
+      show-details: "when_authorized"
 ---
 spring:
   config:
